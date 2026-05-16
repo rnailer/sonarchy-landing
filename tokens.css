@@ -1,0 +1,420 @@
+/* ============================================================
+   SONARCHY DESIGN TOKENS
+   The music category game that slaps.
+   ============================================================ */
+
+/* ---------- Brand fonts (local) ---------- */
+/* Syncopate — broadcast overline. Loaded from brand-provided ttf. */
+@font-face {
+  font-family: "Syncopate";
+  src: url("fonts/Syncopate-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Syncopate";
+  src: url("fonts/Syncopate-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- External fonts ---------- */
+/* All three brand families now load from local /fonts ttf files. No CDN
+   fallback — everything is first-party. */
+
+/* Inter upright — brand variable font (opsz + wght axes). */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-VariableFont_opsz_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter italic — brand variable font (opsz + wght axes). */
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/Inter-Italic-VariableFont_opsz_wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Modak — brand-provided display face. Single weight. */
+@font-face {
+  font-family: "Modak";
+  src: url("fonts/Modak-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- SMPTE color-bar palette ---------- */
+  /* The brand is built on SMPTE broadcast color bars — a retro TV signal. */
+  --smpte-white:       #EBEBEB;
+  --smpte-yellow:      #EBEB10;
+  --smpte-cyan:        #10EBEB;
+  --smpte-green:       #10EB10;
+  --smpte-magenta:     #EB10EB;
+  --smpte-red:         #EB1010;
+  --smpte-blue:        #1010EB;
+  --smpte-black:       #101010;
+  --smpte-superblack:  #070707;   /* canonical page background */
+  --smpte-darkgray:    #1D1D1D;
+
+  /* ---------- SMPTE accent siblings ---------- */
+  /* Each SMPTE bar has ONE darker, desaturated sibling — use these for
+     shadow offsets, pressed states, subtle surface tints, hover shades.
+     Derived directly from the spine; nothing invented outside of it. */
+  --smpte-white-dim:    #9A9A9A;   /* dim white — muted text, dividers  */
+  --smpte-yellow-dim:   #8F8F0A;   /* dark yellow — press/shadow for yellow */
+  --smpte-cyan-dim:     #0A8F8F;   /* dark cyan — press/shadow for cyan  */
+  --smpte-green-dim:    #0A8F0A;   /* dark green — success press        */
+  --smpte-magenta-dim:  #8F0A8F;   /* dark magenta — sticker shadow     */
+  --smpte-red-dim:      #8F0A0A;   /* dark red — danger press           */
+  --smpte-blue-dim:     #0A0A8F;   /* dark blue — deep accent           */
+
+  /* ---------- Neutrals — greys only, no tinted blues ---------- */
+  --charcoal-gray-100: #D8D8D8;    /* dim text on dark                  */
+  --charcoal-gray-200: #808080;    /* muted text                        */
+  --charcoal-gray-300: #303030;    /* raised surface                    */
+  --charcoal-gray-400: #404040;    /* borders, dividers                 */
+  --charcoal-gray-500: #202020;    /* sunken surface                    */
+
+  /* ---------- Semantic ---------- */
+  --bg:        var(--smpte-superblack);
+  --surface:   var(--charcoal-gray-500);
+  --border:    var(--smpte-white);
+  --text:      var(--smpte-white);
+  --text-dim:  var(--charcoal-gray-100);
+  --text-mute: var(--charcoal-gray-200);
+  --primary:   var(--smpte-magenta);
+  --secondary: var(--smpte-cyan);
+  --accent:    var(--smpte-yellow);
+  --cta:       var(--smpte-yellow);
+  --cta-ink:   var(--smpte-black);
+  --danger:    var(--smpte-red);
+  --success:   var(--smpte-green);
+
+  /* ---------- Typography ---------- */
+  /* Modak — display only. Hero moments, logo, score reveals. */
+  --font-display: "Modak", system-ui, cursive;
+  /* Inter — everything else. UI, body, titles, buttons, long-form copy. */
+  --font-ui: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  /* Syncopate — rare broadcast-style overlines only. */
+  --font-mono-ish: "Syncopate", system-ui, sans-serif;
+
+  /* ---------- Radii ---------- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* ---------- Elevation — chunky offset, NO blur ---------- */
+  /* Sonarchy shadows are sticker-style: hard-offset, no blur. */
+  --shadow-btn:   4px 4px 0 0 var(--smpte-cyan);
+  --shadow-btn-press: 0 0 0 0 var(--smpte-cyan);
+  --shadow-card:  6px 6px 0 0 var(--smpte-magenta);
+  --shadow-drop:  0 4px 12px rgba(0, 0, 0, 0.6);
+
+  /* ---------- Motion ---------- */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ============================================================
+   GLOBAL RESET + BODY
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   TYPE CLASSES
+   ============================================================ */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.t-heading {
+  font-family: var(--font-ui);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.t-title {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.t-label {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.t-body {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  line-height: 1.45;
+}
+.t-caption {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-mute);
+  font-size: 12px;
+}
+.t-broadcast {
+  font-family: var(--font-mono-ish);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   FILM GRAIN OVERLAY
+   Global texture — apply to .has-grain or a fixed overlay div.
+   ============================================================ */
+.has-grain { position: relative; }
+.has-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("assets/textures/film-grain.jpg");
+  background-size: cover;
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  z-index: 100;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 24px;
+  border-radius: var(--radius-lg);
+  border: 3px solid transparent;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-out), box-shadow 120ms var(--ease-out);
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 transparent !important;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Primary — magenta sticker CTA (matches login page primary) */
+.btn-primary {
+  background: var(--smpte-magenta);
+  color: var(--smpte-white);
+  border: 2px solid var(--smpte-black);
+  box-shadow: 4px 6px 0 0 var(--smpte-cyan);
+  border-radius: 24px;
+  text-shadow: 2px 2px 0 #2C2C2D;
+  letter-spacing: 0.02em;
+}
+.btn-primary:active:not(:disabled) {
+  transform: translate(4px, 6px);
+  box-shadow: 0 0 0 0 var(--smpte-cyan) !important;
+}
+
+/* Secondary — magenta-outlined CTA (matches login page "Don't have an account? SIGN UP") */
+.btn-secondary {
+  background: transparent;
+  color: var(--smpte-white);
+  border: 2px solid var(--smpte-magenta);
+  box-shadow: 4px 6px 0 0 var(--smpte-cyan);
+  border-radius: 24px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  height: 56px;
+  padding: 0 24px;
+}
+.btn-secondary:active:not(:disabled) {
+  transform: translate(4px, 6px);
+  box-shadow: 0 0 0 0 var(--smpte-cyan) !important;
+}
+
+/* Magenta sticker alias (same as primary, kept for clarity) */
+.btn-sticker {
+  background: var(--smpte-magenta);
+  color: var(--smpte-white);
+  border: 2px solid var(--smpte-black);
+  border-radius: var(--radius-pill);
+  box-shadow: 4px 4px 0 0 var(--smpte-cyan);
+  text-shadow: 2px 2px 0 #2C2C2D;
+  font-size: 22px;
+}
+
+/* Outline — ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--smpte-white);
+  box-shadow: none;
+  border-radius: var(--radius-lg);
+}
+.btn-ghost:hover { background: rgba(235,235,235,0.08); }
+
+/* Icon button — square */
+.btn-icon {
+  height: 44px;
+  width: 44px;
+  padding: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text);
+}
+.btn-icon:hover { background: rgba(16, 235, 235, 0.15); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: transparent;
+  border: 2px solid var(--smpte-white);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  color: var(--text);
+}
+.card-filled {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.card-sticker {
+  background: var(--surface);
+  border: 3px solid var(--smpte-white);
+  border-radius: var(--radius-lg);
+  box-shadow: 6px 6px 0 0 var(--smpte-magenta);
+  padding: 20px;
+}
+
+/* ============================================================
+   PAGE TITLE BAR — ALL CAPS label between SMPTE lines
+   ============================================================ */
+.page-title-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 26px;
+  overflow: hidden;
+}
+.page-title-bar .rail {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 26px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.page-title-bar .rail-left  { background-image: url("assets/ui/page-title-left.svg"); }
+.page-title-bar .rail-right { background-image: url("assets/ui/page-title-right.svg"); }
+.page-title-bar .page-title-label {
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-family: var(--font-ui);
+  font-size: 22px;
+  color: var(--smpte-white);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.page-title-bar .page-title-label b { font-weight: 900; }
+.page-title-bar .page-title-label span { font-weight: 700; }
+
+/* ============================================================
+   SMPTE COLOR BAR — decorative banner
+   ============================================================ */
+.smpte-bars {
+  display: flex;
+  height: 28px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.smpte-bars > div { flex: 1; }
+
+/* ============================================================
+   INPUT — black field, white border, inset
+   ============================================================ */
+.smpte-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 16px;
+  background: var(--smpte-black);
+  border: 2px solid var(--charcoal-gray-400);
+  border-radius: var(--radius-md);
+  color: var(--smpte-white);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 16px;
+  width: 100%;
+}
+.smpte-input:focus-within { border-color: var(--smpte-cyan); }
+.smpte-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font: inherit;
+}
+.smpte-input input::placeholder { color: #595959; font-weight: 700; }
+
+/* ============================================================
+   CHIPS — SMPTE-colored pills
+   ============================================================ */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--smpte-black);
+}
+.chip-yellow  { background: var(--smpte-yellow); }
+.chip-cyan    { background: var(--smpte-cyan); }
+.chip-green   { background: var(--smpte-green); }
+.chip-magenta { background: var(--smpte-magenta); color: var(--smpte-white); }
+.chip-red     { background: var(--smpte-red); color: var(--smpte-white); }
+.chip-blue    { background: var(--smpte-blue); color: var(--smpte-white); }
