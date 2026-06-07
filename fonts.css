@@ -1,0 +1,62 @@
+/* ============================================================
+   Sonarchy — self-hosted webfonts (replaces the Google Fonts CDN)
+   All files are local and referenced relatively, so the site runs
+   identically offline, under `python3 -m http.server`, and on Vercel.
+   ============================================================ */
+
+/* Inter — UI / body (--font-body) */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/inter-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/inter-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/inter-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("fonts/inter-900.woff2") format("woff2");
+}
+
+/* Modak — display headings + big step numbers (--font-display) */
+@font-face {
+  font-family: "Modak";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/modak-400.woff2") format("woff2");
+}
+
+/* Syncopate — letter-spaced kicker / accent labels */
+@font-face {
+  font-family: "Syncopate";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/syncopate-700.woff2") format("woff2");
+}
+
+/* VT323 — monospace, used only by the in-page design Tweaks panel (--font-mono) */
+@font-face {
+  font-family: "VT323";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/vt323-400.woff2") format("woff2");
+}
