@@ -692,31 +692,89 @@
   .btn-play:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 0 var(--cyan); }
   .btn-play:active { transform: translate(6px, 6px); box-shadow: 0 0 0 0 var(--cyan); }
 
-  /* Coming soon — sticker label standing in for the launch CTA (mobile sticker vocabulary) */
-  .coming-soon {
+  /* Play CTA — App Store sticker plus a web/Android pill. Same sticker
+     vocabulary in the hero and at the tail of each section, so the call to
+     action reads as one thing wherever it lands. */
+  .cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 18px 22px;
+  }
+  .cta-btn {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px 32px;
-    background: var(--yellow);
-    color: var(--superblack);
+    gap: 4px;
+    padding: 14px 30px;
     border: 3px solid var(--superblack);
     border-radius: 9999px;
-    box-shadow: 6px 6px 0 0 var(--magenta);
     font-family: var(--font-body);
     font-weight: 900;
-    font-size: calc(clamp(15px, 2.2vw, 20px) * var(--soon-scale, 1));
-    letter-spacing: 0.2em;
     text-transform: uppercase;
-    transform: rotate(-2deg);
+    text-decoration: none;
+    cursor: pointer;
     user-select: none;
+    transition: transform 150ms ease, box-shadow 150ms ease;
   }
+  .cta-btn .cta-label {
+    font-size: calc(clamp(15px, 2.2vw, 20px) * var(--cta-scale, 1));
+    letter-spacing: 0.12em;
+    line-height: 1;
+  }
+  .cta-btn .cta-sub {
+    font-weight: 700;
+    font-size: calc(clamp(9px, 1.2vw, 11px) * var(--cta-scale, 1));
+    letter-spacing: 0.16em;
+    line-height: 1;
+    opacity: 0.88;
+  }
+  .cta-btn:focus-visible { outline: 3px solid var(--cyan); outline-offset: 5px; }
+
+  .cta-btn--app {
+    background: var(--magenta);
+    color: var(--white);
+    box-shadow: 6px 6px 0 0 var(--cyan);
+    text-shadow: 2px 2px 0 var(--magenta-dim);
+    transform: rotate(-2deg);
+  }
+  .cta-btn--app:hover  { transform: rotate(-2deg) translate(3px, 3px); box-shadow: 3px 3px 0 0 var(--cyan); }
+  .cta-btn--app:active { transform: rotate(-2deg) translate(6px, 6px); box-shadow: 0 0 0 0 var(--cyan); }
+
+  .cta-btn--web {
+    background: var(--yellow);
+    color: var(--superblack);
+    box-shadow: 6px 6px 0 0 var(--magenta);
+    transform: rotate(1.5deg);
+  }
+  .cta-btn--web:hover  { transform: rotate(1.5deg) translate(3px, 3px); box-shadow: 3px 3px 0 0 var(--magenta); }
+  .cta-btn--web:active { transform: rotate(1.5deg) translate(6px, 6px); box-shadow: 0 0 0 0 var(--magenta); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-btn { transition: none; }
+  }
+
+  /* Section tail CTA — the same pair closing out each section before the footer */
+  .section-cta {
+    margin: clamp(48px, 7vw, 76px) auto 0;
+    text-align: center;
+  }
+  .section-cta .label {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--cyan);
+  }
+
   /* Wrapper carries the vertical offset (block-level negative margin moves
-     reliably) and sits above the speaker so it stays visible when pulled up. */
+     reliably) and sits above the speaker so it stays visible when pulled up.
+     The hero CTA keeps the old tweak keys, so the panel still drives it. */
   .soon-wrap {
     position: relative;
     z-index: 6;
     margin-top: var(--soon-y, 0px);
+    --cta-scale: var(--soon-scale, 1);
   }
 
   /* Hero CRT visual */
@@ -1395,7 +1453,18 @@
         </div>
       </div>
 
-      <div class="soon-wrap"><span class="coming-soon">Coming soon</span></div>
+      <div class="soon-wrap">
+        <div class="cta-group">
+          <a class="cta-btn cta-btn--app" href="https://apps.apple.com/app/id6798001087" rel="noopener">
+            <span class="cta-label">Play now</span>
+            <span class="cta-sub">Free on the App Store</span>
+          </a>
+          <a class="cta-btn cta-btn--web" href="https://play.sonarchy.com" rel="noopener">
+            <span class="cta-label">Play online</span>
+            <span class="cta-sub">Android &amp; web</span>
+          </a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -1456,6 +1525,20 @@
             <h3>Rate it.<br/>Out loud.</h3>
             <p>Score every song 1–10 on how well it fit — names attached, no hiding. Two cassette mascots narrate the fallout. Highest score across the rounds takes the crown.</p>
           </article>
+        </div>
+
+        <div class="section-cta">
+          <span class="label">/ play now /</span>
+          <div class="cta-group">
+            <a class="cta-btn cta-btn--app" href="https://apps.apple.com/app/id6798001087" rel="noopener">
+              <span class="cta-label">Play now</span>
+              <span class="cta-sub">Free on the App Store</span>
+            </a>
+            <a class="cta-btn cta-btn--web" href="https://play.sonarchy.com" rel="noopener">
+              <span class="cta-label">Play online</span>
+              <span class="cta-sub">Android &amp; web</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1561,6 +1644,20 @@
         </div>
 
         <p class="crew-tail">/ one more to meet. stay tuned /</p>
+
+        <div class="section-cta">
+          <span class="label">/ play now /</span>
+          <div class="cta-group">
+            <a class="cta-btn cta-btn--app" href="https://apps.apple.com/app/id6798001087" rel="noopener">
+              <span class="cta-label">Play now</span>
+              <span class="cta-sub">Free on the App Store</span>
+            </a>
+            <a class="cta-btn cta-btn--web" href="https://play.sonarchy.com" rel="noopener">
+              <span class="cta-label">Play online</span>
+              <span class="cta-sub">Android &amp; web</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -1873,7 +1970,7 @@
         { section: "Tagline" },
         { key: "taglineScale", label: "Size",     min: 0.6, max: 2.4, step: 0.02, fmt: mult },
         { key: "taglineY",     label: "Vertical", min: -30, max: 90,  step: 1,    fmt: px },
-        { section: "Coming soon" },
+        { section: "Play buttons" },
         { key: "soonScale", label: "Size",     min: 0.6, max: 1.8,  step: 0.02, fmt: mult },
         { key: "soonY",     label: "Vertical", min: -240, max: 140, step: 1,    fmt: px },
         { section: "Speaker" },
