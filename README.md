@@ -77,9 +77,9 @@ Where the existing in-game routes (`app/about/page.tsx`, `app/privacy/page.tsx`,
 
 7. **Footer**
    - Two-column grid (1 col on mobile, 2 cols at ≥768px).
-   - **Left:** Developed-by lockup. Eyebrow "Developed by", then 333 Games logo (`assets/brand/333Logo.svg`, inverted to white). Meta paragraph. Then an "About" block linking to about.html. Then a "Get in touch" block with `mailto:hello@sonarchy.com`.
+   - **Left:** Developed-by lockup. Eyebrow "Developed by", then Treble Games logo (`assets/brand/treble-games-logo.svg`, full colour, links to treblegames.ie). Meta paragraph opening with a "Treble Games" link. Then an "About" block linking to about.html. Then a "Get in touch" block with `mailto:hello@sonarchy.com`.
    - **Right:** YouTube attribution. Uses the official light-variant "Developed with YouTube" SVG (`assets/brand/developed-with-youtube.svg`) at 28-36px tall, followed by the legal blurb: "Sonarchy uses the YouTube API Services. By playing, you agree to the [YouTube Terms of Service] and [Google Privacy Policy]." On ≥768px, this column gets a 1px left border + 64px left padding.
-   - Bottom legal row: "© 2026 333 Games" on the left; Privacy Policy / Terms of Service links on the right, 12px uppercase 0.12em tracking.
+   - Bottom legal row: "© 2026 Treble Games" on the left; Privacy Policy / Terms of Service links on the right, 12px uppercase 0.12em tracking.
 
 ### 2. `about.html` — About Sonarchy
 Origin story page. Shared title bar pattern, single max-760px column. Body copy is in `pages.css` (see "Shared styles" below). Plain `landing.html` link at the back arrow.
@@ -266,7 +266,7 @@ SVG turbulence overlay applied as `position: fixed; inset: 0; mix-blend-mode: sc
 
 All assets used by the design are included in `assets/` of this bundle. Categories:
 
-- `assets/brand/` — Sonarchy logo, hero TV frame, characters appearing in hero, 333 Games logo, "Developed with YouTube" SVG, neon line waves.
+- `assets/brand/` — Sonarchy logo, hero TV frame, characters appearing in hero, Treble Games logo, "Developed with YouTube" SVG, neon line waves.
 - `assets/characters/` — Casey, Walker, Vinny, Duke, Blare full-body SVGs for the Crew section.
 - `assets/ui/` — `pageTitleLeft.svg`, `pageTitleRight.svg` (SMPTE-rail title decorations), `back-arrow.svg` (game's illustrated back arrow).
 - `assets/textures/` — film-grain.jpg (not currently used; the design uses an inline SVG turbulence overlay instead — keep this around if you want to swap to the JPG for grain).
@@ -279,7 +279,7 @@ All SVGs come from the existing sonarchy-youtube repo (`public/images/...`) — 
 
 - Contact email: **hello@sonarchy.com** (used on landing footer, about page, privacy & terms contact sections, GDPR rights flow).
 - Play URL: **https://play.sonarchy.com**
-- 333 Games studio link: **https://333games.studio**
+- Treble Games studio link: **https://treblegames.ie**
 - Studio strapline: "An independent studio making small games for the people in the room."
 
 ---
