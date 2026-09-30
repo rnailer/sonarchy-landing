@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <!-- @dsCard group="Brand" name="Landing page" -->
-<html lang="en">
+<!-- EVENT FLAG (Dublin, 15 Oct 2026): each token in data-event switches one piece on.
+     "strip" = A, the strip above the hero. "section" = B, the event card under the hero.
+     Delete a token to hide that piece, or delete the attribute to hide both. -->
+<html lang="en" data-event="strip section">
 <head>
 <meta charset="UTF-8" />
+<!-- EVENT AUTO-EXPIRY: hides A and B once the night is over (15 Oct 23:59 Dublin, IST = UTC+1). -->
+<script>
+  if (Date.now() > Date.parse("2026-10-15T23:59:59+01:00")) document.documentElement.removeAttribute("data-event");
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Sonarchy — the music party game where one speaker meets many controllers." />
 <title>Sonarchy — the music party game</title>
@@ -1223,13 +1230,236 @@
     font-size: 14px;
   }
 
+  /* Syncopate kicker label, shared by the footer and the event pieces */
+  .label-syn {
+    font-family: "Syncopate", var(--font-body);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
   /* ====================================================
-     FOOTER — "developed by Treble Games", Swiss-clean
+     EVENT: DUBLIN, THU 15 OCT 2026. TEMPORARY.
+     A = .event-strip (above the hero), B = .event-block (under the hero).
+     Switched by data-event on <html>. After 15 Oct, delete this whole
+     CSS block and the two HTML blocks marked "EVENT A" and "EVENT B".
+     ==================================================== */
+  html:not([data-event~="strip"]) .event-strip,
+  html:not([data-event~="section"]) .event-block { display: none; }
+
+  .ev-narrow { display: none; }
+  @media (max-width: 719px) {
+    .ev-wide { display: none; }
+    .ev-narrow { display: inline; }
+  }
+
+  /* Yellow ticket pill with an offset shadow, drop-into-shadow on press */
+  .event-pill {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: var(--yellow);
+    color: var(--superblack);
+    border: 3px solid var(--superblack);
+    border-radius: 9999px;
+    font-family: var(--font-body);
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 5px 5px 0 0 var(--pill-shadow, var(--magenta));
+    transition: transform 150ms ease, box-shadow 150ms ease;
+  }
+  .event-pill:hover  { transform: translate(2px, 2px); box-shadow: 3px 3px 0 0 var(--pill-shadow, var(--magenta)); }
+  .event-pill:active { transform: translate(5px, 5px); box-shadow: 0 0 0 0 var(--pill-shadow, var(--magenta)); }
+  .event-pill:focus-visible { outline: 3px solid var(--cyan); outline-offset: 4px; border-radius: 9999px; }
+
+  /* ---------- A: strip above the hero ---------- */
+  .event-strip {
+    position: relative;
+    z-index: 2;
+    background: var(--superblack);
+    border-bottom: 3px solid var(--magenta);
+  }
+  .event-strip .smpte-bars { height: 6px; }
+  .event-strip-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px clamp(20px, 3vw, 48px);
+    min-height: 56px;
+    padding: 8px var(--gutter);
+  }
+  .event-strip-live {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--magenta);
+    white-space: nowrap;
+  }
+  .event-dot {
+    flex: none;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--magenta);
+    animation: eventPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes eventPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(235, 16, 235, 0.6); }
+    60%      { box-shadow: 0 0 0 7px rgba(235, 16, 235, 0); }
+  }
+  .event-strip-meta { color: var(--white); letter-spacing: 0.16em; }
+  .event-strip .event-pill {
+    margin-left: auto;
+    flex: none;
+    padding: 9px 20px;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+  }
+  /* The venue tail drops before it wraps */
+  @media (max-width: 1239px) {
+    .event-strip-tail { display: none; }
+  }
+  @media (max-width: 719px) {
+    .event-strip-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 16px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
+    .event-strip-live { grid-column: 1; font-size: 11px; }
+    .event-strip-meta { grid-column: 1; grid-row: 2; font-size: 10px; letter-spacing: 0.12em; }
+    .event-strip .event-pill { grid-column: 2; grid-row: 1 / span 2; padding: 8px 16px; font-size: 13px; }
+  }
+
+  /* ---------- B: event section under the hero ---------- */
+  .event-section {
+    padding: clamp(40px, 6vw, 72px) 0 clamp(72px, 9vw, 110px);
+    text-align: center;
+  }
+  .event-section > .container > .label-syn {
+    display: block;
+    color: var(--cyan);
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+  .event-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+    max-width: 1110px;
+    margin: 0 auto;
+    padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 52px);
+    background: var(--magenta);
+    color: var(--superblack);
+    border: 3px solid var(--superblack);
+    border-radius: 20px;
+    box-shadow: 18px 18px 0 0 var(--cyan);
+    text-align: left;
+  }
+  .event-card h2 {
+    margin: 0 0 clamp(24px, 3.5vw, 44px);
+    font-size: clamp(52px, 6vw, 88px);
+    color: var(--superblack);
+  }
+  .event-body {
+    margin: 0 0 22px;
+    max-width: 620px;
+    font-size: clamp(17px, 1.6vw, 21px);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .event-meta,
+  .event-small { margin: 0; letter-spacing: 0.14em; }
+  .event-meta  { font-size: 13px; }
+  .event-small { font-size: 10px; margin-top: 10px; letter-spacing: 0.1em; }
+  .event-card .event-pill {
+    --pill-shadow: var(--superblack);
+    margin-top: 32px;
+    padding: 12px 28px 10px;
+  }
+  .event-pill .cta-label { font-size: 20px; letter-spacing: 0.04em; line-height: 1; }
+  .event-pill .cta-sub   { font-size: 9px; letter-spacing: 0.14em; line-height: 1; }
+
+  /* Art: the hero speaker with Casey and Walker, plus a slapped-on sticker */
+  .event-art {
+    position: relative;
+    width: clamp(220px, 21vw, 300px);
+    aspect-ratio: 233 / 296;
+    margin: 0 auto;
+    align-self: start;
+    margin-top: -8px;
+  }
+  .event-art img { position: absolute; height: auto; }
+  .event-art .speaker { inset: 0; width: 100%; height: 100%; }
+  .event-art .casey {
+    width: 68%;
+    left: -22%;
+    bottom: -12%;
+    transform: rotate(-6deg);
+    filter: drop-shadow(0 6px 0 rgba(0,0,0,0.35));
+  }
+  .event-art .walker {
+    width: 60%;
+    right: -26%;
+    bottom: -6%;
+    transform: rotate(5deg);
+    filter: drop-shadow(0 6px 0 rgba(0,0,0,0.35));
+  }
+  .event-sticker {
+    position: absolute;
+    top: -28%;
+    left: 58%;
+    z-index: 2;
+    transform: translateX(-50%) rotate(-5deg);
+    padding: 0.32em 0.55em 0.36em;
+    background: var(--white);
+    color: var(--superblack);
+    border: 3px solid var(--superblack);
+    border-radius: 10px;
+    box-shadow: 8px 8px 0 0 var(--cyan);
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.6vw, 38px);
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 899px) {
+    .event-card {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 24px 22px 32px;
+      box-shadow: 10px 10px 0 0 var(--cyan);
+    }
+    .event-art { order: -1; width: 46%; margin-top: 0; }
+    .event-art .casey  { width: 78%; left: -58%; bottom: 2%; }
+    .event-art .walker { width: 66%; right: -48%; bottom: 0; }
+    .event-sticker { display: none; }
+    .event-card h2 { font-size: clamp(52px, 17vw, 72px); margin-bottom: 20px; }
+    .event-meta, .event-small { font-size: 10px; line-height: 1.9; }
+    .event-small { margin-top: 0; }
+    .event-meta .sep { display: none; }
+    .event-meta span { display: block; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .event-dot { animation: none; }
+    .event-pill { transition: none; }
+  }
+  /* ================= /EVENT: DUBLIN ================= */
+
+  /* ====================================================
+     FOOTER: Treble Games, socials, contact, legal
      ==================================================== */
   footer {
     background: var(--superblack);
-    border-top: 1px solid var(--gray-400);
-    padding: clamp(56px, 8vw, 96px) 0 clamp(40px, 5vw, 56px);
+    padding: clamp(56px, 6vw, 72px) 0 clamp(40px, 5vw, 56px);
   }
   .footer-grid {
     display: grid;
@@ -1238,97 +1468,102 @@
     align-items: start;
   }
   @media (min-width: 768px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 64px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px 64px; }
+    .footer-grid > .yt-attr { grid-column: 1; grid-row: 2; }
   }
-
-  /* Treble Games lockup — Swiss/modernist, NOT sticker-style */
-  .lockup {
-    display: block;
-  }
-  .lockup-kicker {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.36em;
-    text-transform: uppercase;
-    color: var(--gray-100);
-    margin-bottom: 14px;
-  }
-  .lockup-mark {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    font-family: var(--font-body);
-  }
-  .lockup-mark .threes {
-    font-weight: 900;
-    font-size: clamp(56px, 8vw, 88px);
-    line-height: 0.85;
-    letter-spacing: -0.04em;
+  .footer-col > .label-syn { display: block; margin-bottom: 18px; color: var(--white); }
+  .footer-col > .label-syn.is-cyan { color: var(--cyan); }
+  .footer-logo { display: inline-block; }
+  .footer-logo img { width: clamp(130px, 13vw, 180px); height: auto; margin: 0; }
+  .footer-about {
+    margin: 26px 0 0;
+    max-width: 460px;
+    font-size: 16px;
+    line-height: 1.6;
     color: var(--white);
-    font-feature-settings: "tnum" 1, "ss01" 1;
   }
-  .lockup-mark .threes span:nth-child(2) { color: var(--yellow); }
-  .lockup-mark .games {
-    font-weight: 400;
-    font-size: clamp(14px, 1.6vw, 18px);
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--white);
-    transform: translateY(-6px);
-  }
-  .lockup-line {
-    margin-top: 18px;
-    height: 1px;
-    background: var(--white);
-    width: 100%;
-  }
-  .lockup-meta {
-    margin-top: 14px;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    color: var(--gray-100);
-    line-height: 1.5;
-    max-width: 380px;
-  }
-
-  .contact { margin-top: 24px; }
-  .contact a {
-    color: var(--white);
-    font-weight: 700;
+  .footer-about a {
+    color: inherit;
     text-decoration: none;
     border-bottom: 1px solid var(--gray-400);
-    padding-bottom: 2px;
     transition: border-color .15s, color .15s;
   }
-  .contact a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+  .footer-about a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
 
-  /* YouTube attribution column */
-  .yt-attr {
-    border-left: none;
+  /* Social pills: outlined in the network's SMPTE colour, with a filled badge */
+  .socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
-  @media (min-width: 768px) {
-    .yt-attr { border-left: 1px solid var(--gray-400); padding-left: 64px; }
+  .social {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 16px 0 7px;
+    border: 2px solid var(--ring);
+    border-radius: 9999px;
+    color: var(--white);
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color .15s, color .15s;
   }
-  .yt-attr .label { color: var(--gray-100); margin-bottom: 16px; display: block; }
-  .yt-logo {
-    height: 28px;
-    width: auto;
-    margin-bottom: 18px;
-    display: block;
+  .social-badge {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ring);
+    color: var(--badge-ink, var(--white));
+    font-size: 8px;
+    letter-spacing: 0.02em;
+    text-transform: none;
   }
-  @media (min-width: 768px) { .yt-logo { height: 36px; } }
+  .social:hover { background: var(--ring); color: var(--badge-ink, var(--white)); }
+  .social:hover .social-badge { background: var(--superblack); color: var(--white); }
+  .social--yt { --ring: #EB1010; }
+  .social--in { --ring: #1010EB; }
+  .social--x  { --ring: var(--white); --badge-ink: var(--superblack); }
+  .social--ig { --ring: var(--magenta); }
+  .socials-note {
+    margin: 18px 0 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #8A8A8A;
+  }
+  .footer-contact { margin-top: 48px; }
+  .footer-contact .label-syn { display: block; margin-bottom: 14px; }
+  .footer-contact a {
+    color: var(--white);
+    font-weight: 700;
+    font-size: 18px;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s, color .15s;
+  }
+  .footer-contact a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+  /* YouTube API attribution, required while the game uses YouTube API Services */
+  .yt-attr { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .yt-logo { height: 26px; width: auto; }
   .yt-copy {
-    font-size: 13px;
+    flex: 1 1 260px;
+    margin: 0;
+    font-size: 12px;
     line-height: 1.55;
-    color: var(--gray-100);
-    margin: 0 0 16px;
-    max-width: 460px;
+    color: #8A8A8A;
+    max-width: 420px;
   }
   .yt-copy a {
-    color: var(--white);
+    color: var(--gray-100);
     text-decoration: underline;
     text-decoration-color: var(--gray-400);
     text-underline-offset: 3px;
@@ -1338,34 +1573,31 @@
 
   /* Legal row */
   .legal {
-    margin-top: 56px;
-    padding-top: 24px;
+    margin-top: clamp(56px, 8vw, 110px);
+    padding-top: 28px;
     border-top: 1px solid var(--gray-400);
     display: flex;
     flex-wrap: wrap;
-    gap: 24px 32px;
+    gap: 20px 32px;
     align-items: center;
     justify-content: space-between;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray-100);
+    font-size: 11px;
+    color: var(--white);
   }
   .legal ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 28px;
+    gap: 20px 36px;
     flex-wrap: wrap;
   }
   .legal a {
-    color: var(--gray-100);
+    color: var(--white);
     text-decoration: none;
     transition: color .15s;
   }
-  .legal a:hover { color: var(--white); }
-  .legal .copyright { font-weight: 700; }
+  .legal a:hover { color: var(--cyan); }
 
   /* ---------- A11y focus rings (visible) ---------- */
   a:focus-visible, button:focus-visible {
@@ -1393,6 +1625,16 @@
   <!-- ============================================
        HERO
        ============================================ -->
+  <!-- ===== EVENT A: Dublin strip, until 15 Oct 2026. Delete from here… ===== -->
+  <aside class="event-strip" aria-label="Sonarchy live in Dublin">
+    <div class="smpte-bars" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <div class="event-strip-inner">
+      <span class="event-strip-live label-syn"><span class="event-dot" aria-hidden="true"></span>Live in Dublin</span>
+      <span class="event-strip-meta label-syn">Thu 15 Oct · 6:30pm · <span class="ev-wide">The Chelsea Drugstore<span class="event-strip-tail"> · with Yinyang Events</span></span><span class="ev-narrow">Dublin</span></span>
+      <a class="event-pill" href="https://www.eventbrite.ie/e/yinyang-events-x-sonarchy-solo-meets-social-make-new-friends-tickets-2002227359932" target="_blank" rel="noopener" aria-label="Get tickets on Eventbrite (opens in a new tab)"><span><span class="ev-wide">Get </span>Tickets</span></a>
+    </div>
+  </aside>
+  <!-- ===== …to here (EVENT A) ===== -->
   <header class="hero" id="top">
     <div class="smpte-bars hero-smpte" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     <div class="container hero-inner">
@@ -1474,6 +1716,35 @@
        HOW IT WORKS
        ============================================ -->
   <main>
+    <!-- ===== EVENT B: Dublin section, until 15 Oct 2026. Delete from here… ===== -->
+    <div class="event-block">
+      <section class="event-section" id="live" aria-labelledby="event-title">
+        <div class="container">
+          <span class="label-syn">/ Live in Dublin /</span>
+          <div class="event-card">
+            <div class="event-copy">
+              <h2 id="event-title" class="display">Come break my game.</h2>
+              <p class="event-body">The first public Sonarchy night. <span class="ev-wide">30 to 45 people, rounds</span><span class="ev-narrow">Rounds</span> of up to 10, everyone else heckles.</p>
+              <p class="event-meta label-syn"><span>Thu 15 Oct · 6:30pm</span><span class="sep"> · </span><span>The Chelsea Drugstore, D2</span></p>
+              <p class="event-small label-syn"><span class="ev-wide">A Solo Meets Social night </span>with Yinyang Events · 23+<span class="ev-wide"> · Doors close 7pm</span></p>
+              <a class="event-pill" href="https://www.eventbrite.ie/e/yinyang-events-x-sonarchy-solo-meets-social-make-new-friends-tickets-2002227359932" target="_blank" rel="noopener">
+                <span class="cta-label">Get tickets</span>
+                <span class="cta-sub">On Eventbrite</span>
+              </a>
+            </div>
+            <div class="event-art" aria-hidden="true">
+              <img class="speaker" src="assets/brand/hero-speaker.svg" alt="" />
+              <img class="casey" src="assets/brand/hero-casey-v2.svg" alt="" />
+              <img class="walker" src="assets/brand/hero-walker.svg" alt="" />
+              <span class="event-sticker">See you there</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="smpte-divider"><div class="smpte-bars" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
+    </div>
+    <!-- ===== …to here (EVENT B) ===== -->
+
     <section class="section" id="how-it-works" aria-labelledby="hiw-title">
       <div class="container">
         <div class="section-head">
@@ -1671,26 +1942,32 @@
     <div class="container">
       <div class="footer-grid">
 
-        <!-- TREBLE GAMES lockup -->
-        <div>
-          <div class="lockup">
-            <div class="lockup-kicker">Developed by</div>
-            <a href="https://treblegames.ie" target="_blank" rel="noopener" style="display:inline-block;"><img src="assets/brand/treble-games-logo.svg" alt="Treble Games" width="353" height="253" style="display:block;width:clamp(110px,14vw,160px);height:auto;margin:0;" /></a>
-            <p class="lockup-meta"><a href="https://treblegames.ie" target="_blank" rel="noopener" style="color:var(--white);text-decoration:none;border-bottom:1px solid var(--gray-400);">Treble Games</a>, an independent studio making small games for the people in the room.</p>
-          </div>
+        <!-- Treble Games -->
+        <div class="footer-col">
+          <span class="label-syn">Developed by</span>
+          <a class="footer-logo" href="https://treblegames.ie" target="_blank" rel="noopener"><img src="assets/brand/treble-games-logo.svg" alt="Treble Games" width="353" height="253" /></a>
+          <p class="footer-about"><a href="https://treblegames.ie" target="_blank" rel="noopener">Treble Games</a>, a one-person studio in Dublin. Games and apps, built with AI, finished by hand.</p>
 
-          <div class="contact">
-            <p style="margin:0 0 14px; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-100);">About</p>
-            <a href="about.html">The story behind Sonarchy</a>
-          </div>
+        </div>
 
-          <div class="contact">
-            <p style="margin:0 0 6px; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gray-100);">Get in touch</p>
+        <!-- Socials + contact -->
+        <div class="footer-col">
+          <span class="label-syn is-cyan">Follow along</span>
+          <ul class="socials">
+            <li><a class="social social--yt" href="https://www.youtube.com/@treblegames.studio" target="_blank" rel="noopener"><span class="social-badge" aria-hidden="true">YT</span>YouTube</a></li>
+            <li><a class="social social--in" href="https://www.linkedin.com/company/treble-games" target="_blank" rel="noopener"><span class="social-badge" aria-hidden="true">in</span>LinkedIn</a></li>
+            <li><a class="social social--x" href="https://x.com/treblegamesIE" target="_blank" rel="noopener"><span class="social-badge" aria-hidden="true">X</span>X</a></li>
+            <li><a class="social social--ig" href="https://www.instagram.com/treble.games/" target="_blank" rel="noopener"><span class="social-badge" aria-hidden="true">IG</span>Instagram</a></li>
+          </ul>
+          <p class="socials-note">Treble Games on YouTube, LinkedIn, X and Instagram. Game nights, builds, new characters.</p>
+
+          <div class="footer-contact">
+            <span class="label-syn">Get in touch</span>
             <a href="mailto:hello@sonarchy.com">hello@sonarchy.com</a>
           </div>
         </div>
 
-        <!-- YouTube attribution -->
+        <!-- YouTube API attribution -->
         <div class="yt-attr">
           <img class="yt-logo" src="assets/brand/developed-with-youtube.svg" alt="Developed with YouTube" />
           <p class="yt-copy">
@@ -1703,9 +1980,10 @@
 
       </div>
 
-      <div class="legal">
+      <div class="legal label-syn">
         <span class="copyright">© 2026 Treble Games</span>
         <ul>
+          <li><a href="about.html">About</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
         </ul>
