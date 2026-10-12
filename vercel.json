@@ -5,6 +5,7 @@
     { "source": "/", "destination": "/landing" }
   ],
   "redirects": [
+    { "source": "/feedback", "destination": "https://docs.google.com/forms/d/e/1FAIpQLSeJ2Om_kSytWkqKpTtUEEQ9nA2Xc0LkNJtOvYdK-D8bzZLU6w/viewform", "permanent": false },
     { "source": "/api/:path*", "destination": "https://play.sonarchy.com/api/:path*", "permanent": true },
     { "source": "/auth/:path*", "destination": "https://play.sonarchy.com/auth/:path*", "permanent": true },
     { "source": "/category-selected/:path*", "destination": "https://play.sonarchy.com/category-selected/:path*", "permanent": true },
